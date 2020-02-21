@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.siit21c.hello.vo.Book" alias="Book" />
+	</typeAliases><!-- 타이핑을줄이기위해 -->
+	<!-- 필요하면 이거도 씀 <settings></settings> -->
+	
+	
+	<mappers>
+		<mapper resource="Mabatis/book.xml" />
+	</mappers>
+</configuration>

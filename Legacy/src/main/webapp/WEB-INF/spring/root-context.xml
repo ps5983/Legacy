@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+
+	<!-- 빈 추가해줘서 생으로 개발할때 db를 연결하거나 그런걸해줌 -->
+
+
+	<!-- jdbc2 Oracle 데이터베이스 연결 <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" 
+		destroy-method="close"> <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> 
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" /> <property 
+		name="username" value="xeuser"/> <property name="password" value="xeuser"/> 
+		</bean> -->
+		
+
+	<!-- hikari 빈 -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig"> <!-- 히카리클래스 -->
+		<property name="dataSourceClassName" value="oracle.jdbc.pool.OracleDataSource"></property> <!-- ojbd 클래스 네임 value -->
+		<property name="dataSourceProperties">
+			<props>
+				<prop key="url">jdbc:oracle:thin:@localhost:1521:orcl</prop>
+				<prop key="user">scott</prop>
+				<prop key="password">tiger</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 마이바티스 스프링 연동 been id : datasourde랑 sqlsessiondml ref : datasource랑 
+		연결해 사용하고 2번과 3번도 마찬가지. -->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="close">
+		<constructor-arg ref="hikariConfig" />
+
+	</bean>
+
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml"></property>
+	</bean>
+
+	<bean id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSession" />
+	</bean>
+
+
+
+
+</beans>
